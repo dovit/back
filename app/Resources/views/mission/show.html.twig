@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Mission</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ mission.id }}</td>
+            </tr>
+            <tr>
+                <th>Client</th>
+                <td>{{ mission.client.userName }}</td>
+            </tr>
+            <tr>
+                <th>Service date</th>
+                <td>{% if mission.serviceDate %}{{ mission.serviceDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Product name</th>
+                <td>{{ mission.productName }}</td>
+            </tr>
+            <tr>
+                <th>Quantity</th>
+                <td>{{ mission.quantity }}</td>
+            </tr>
+            <tr>
+                <th>Country destination</th>
+                <td>{{ mission.countryDestination }}</td>
+            </tr>
+            <tr>
+                <th>Vendor name</th>
+                <td>{{ mission.vendorName }}</td>
+            </tr>
+            <tr>
+                <th>Vendor email</th>
+                <td>{{ mission.vendorEmail }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-default" href="{{ path('missions_edit', { 'id': mission.id }) }}">Edit</a>
+    {{ form_start(delete_form) }}
+        <input class="btn btn-danger" type="submit" value="Delete">
+    {{ form_end(delete_form) }}
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Missions list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Client</th>
+                <th>Service date</th>
+                <th>Product name</th>
+                <th>Quantity</th>
+                <th>Country destination</th>
+                <th>Vendor name</th>
+                <th>Vendor email</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for mission in missions %}
+            <tr>
+                <td>{{ mission.client.username }}</td>
+                <td>{% if mission.serviceDate %}{{ mission.serviceDate|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ mission.productName }}</td>
+                <td>{{ mission.quantity }}</td>
+                <td>{{ mission.countryDestination }}</td>
+                <td>{{ mission.vendorName }}</td>
+                <td>{{ mission.vendorEmail }}</td>
+                <td>
+                    <a class="btn btn-default" href="{{ path('missions_show', { 'id': mission.id }) }}">show</a>
+                    <a class="btn btn-default" href="{{ path('missions_edit', { 'id': mission.id }) }}">edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
