@@ -23,11 +23,21 @@ class MissionController extends Controller
      *
      * @Route("/", name="missions_index")
      * @Method("GET")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $missions = $this->get('app.mission_service')
+        $missionsQuery = $this->get('app.mission_service')
             ->getMissions($this->getUser());
+
+        $paginator  = $this->get('knp_paginator');
+        $missions = $paginator->paginate(
+            $missionsQuery,
+            $request->query->getInt('page', 1),
+            $this->getParameter('limit_paginator')
+        );
+        
         return $this->render('mission/index.html.twig', [
             'missions' => $missions,
         ]);

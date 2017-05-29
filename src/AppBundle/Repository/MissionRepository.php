@@ -27,6 +27,6 @@ class MissionRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('user', $user);
         }
 
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery();
     }
 }
