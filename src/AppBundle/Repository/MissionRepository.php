@@ -12,16 +12,21 @@ use AppBundle\Entity\User;
  */
 class MissionRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function myFindAllByUser(User $user)
+    private function base()
     {
         return $this->createQueryBuilder('m')
-                    ->join('m.client', 'u')
-                    ->where('u.id = :user')
-                    ->orWhere('u.roles LIKE :roles')
-                    ->setParameter('user', $user)
-                    ->setParameter('roles', 'ROLE_ADMIN')
-                    ->getQuery()
-                    ->getResult()
-            ;
+                    ->join('m.client', 'u');
+    }
+
+    public function myFindAllByUser(User $user, $isAdmin)
+    {
+        $qb = $this->base();
+
+        if ($isAdmin === false) {
+            $qb->where('u.id = :user')
+                ->setParameter('user', $user);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 }

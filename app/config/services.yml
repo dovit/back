@@ -3,3 +3,17 @@ services:
         class: AppBundle\Form\MissionType
         tags:
             - { name: form.type }
+
+    app.mission_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - AppBundle\Entity\Mission
+
+    app.mission_service:
+        class: AppBundle\Service\Mission
+        autowire: true
+        calls:
+            - method: setRepository
+              arguments:
+                  - '@app.mission_repository'

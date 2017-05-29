@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Mission controller.
@@ -25,11 +26,8 @@ class MissionController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-dump('oui');
-        $missions = $em->getRepository('AppBundle:Mission')
-                        ->myFindAllByUser($this->getUser());
-
+        $missions = $this->get('app.mission_service')
+            ->getMissions($this->getUser());
         return $this->render('mission/index.html.twig', [
             'missions' => $missions,
         ]);
@@ -96,6 +94,9 @@ dump('oui');
      */
     public function editAction(Request $request, Mission $mission)
     {
+        if ($this->getUser()->getId() !== $mission->getClient()->getId())
+            throw new AccessDeniedException();
+
         $deleteForm = $this->createDeleteForm($mission);
         $editForm = $this->createForm(MissionType::class, $mission);
         $editForm->handleRequest($request);
@@ -126,6 +127,9 @@ dump('oui');
      */
     public function deleteAction(Request $request, Mission $mission)
     {
+        if ($this->getUser()->getId() !== $mission->getClient()->getId())
+            throw new AccessDeniedException();
+
         $form = $this->createDeleteForm($mission);
         $form->handleRequest($request);
 

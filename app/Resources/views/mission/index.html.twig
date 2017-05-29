@@ -6,7 +6,9 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Client</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th>Client</th>
+                {% endif %}
                 <th>Service date</th>
                 <th>Product name</th>
                 <th>Quantity</th>
@@ -19,9 +21,19 @@
         <tbody>
         {% for mission in missions %}
             <tr>
+                {% if is_granted('ROLE_ADMIN') %}
                 <td>{{ mission.client.username }}</td>
-                <td>{% if mission.serviceDate %}{{ mission.serviceDate|date('Y-m-d') }}{% endif %}</td>
-                <td>{{ mission.productName }}</td>
+                {% endif %}
+                <td>
+                    {% if mission.serviceDate %}
+                        <a href="{{ path('missions_show', { 'id': mission.id }) }}">{{ mission.serviceDate|date('Y-m-d') }}</a>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path('missions_show', { 'id': mission.id }) }}">
+                        {{ mission.productName }}
+                    </a>
+                </td>
                 <td>{{ mission.quantity }}</td>
                 <td>{{ mission.countryDestination }}</td>
                 <td>{{ mission.vendorName }}</td>
