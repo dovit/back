@@ -29,7 +29,10 @@ class MissionController extends Controller
     public function indexAction(Request $request)
     {
         $missions = $this->get('app.mission_service')
-            ->getMissions($this->getUser(), $request->query->getInt('page'), $this->getParameter('limit_paginator'));
+            ->getMissions(
+                    $this->getUser(),
+                    $request->query->getInt('page'),
+                    $this->getParameter('limit_paginator'));
         
         return $this->render('mission/index.html.twig', [
             'missions' => $missions,
@@ -51,7 +54,10 @@ class MissionController extends Controller
         $form = $this->createForm(MissionType::class, $mission);
         $form->handleRequest($request);
 
+        $mission->setClient($this->getUser());
+
         if ($form->isSubmitted() && $form->isValid()) {
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($mission);
             $em->flush();

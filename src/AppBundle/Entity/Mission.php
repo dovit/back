@@ -27,8 +27,6 @@ class Mission
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="client", referencedColumnName="id")
-     *
-     * @Assert\NotBlank()
      */
     private $client;
 
