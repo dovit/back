@@ -28,15 +28,8 @@ class MissionController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $missionsQuery = $this->get('app.mission_service')
-            ->getMissions($this->getUser());
-
-        $paginator  = $this->get('knp_paginator');
-        $missions = $paginator->paginate(
-            $missionsQuery,
-            $request->query->getInt('page', 1),
-            $this->getParameter('limit_paginator')
-        );
+        $missions = $this->get('app.mission_service')
+            ->getMissions($this->getUser(), $request->query->getInt('page'), $this->getParameter('limit_paginator'));
         
         return $this->render('mission/index.html.twig', [
             'missions' => $missions,
