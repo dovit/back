@@ -19,9 +19,11 @@
                         <li>
                             <a href="{{ path('missions_index', {'page': 1   }) }}">Back to the list</a>
                         </li>
+                        {%  if (is_granted('ROLE_CLIENT')) %}
                         <li>
                             <a href="{{ path('missions_new') }}">Create a new mission</a>
                         </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

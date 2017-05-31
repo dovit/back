@@ -21,17 +21,17 @@ class MissionController extends Controller
     /**
      * Lists all mission.
      *
-     * @Route("/", name="missions_index")
+     * @Route("/page/{page}", name="missions_index", defaults={"page": "1"}, requirements={"page": "\d+"})
      * @Method("GET")
-     * @param Request $request
+     * @param integer $page
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction(Request $request)
+    public function indexAction($page = 1)
     {
         $missions = $this->get('app.mission_service')
             ->getMissions(
                     $this->getUser(),
-                    $request->query->getInt('page'),
+                    $page,
                     $this->getParameter('limit_paginator'));
         
         return $this->render('mission/index.html.twig', [
@@ -83,6 +83,10 @@ class MissionController extends Controller
      */
     public function showAction(Mission $mission)
     {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') &&
+            $this->getUser()->getId() !== $mission->getClient()->getId())
+            throw new AccessDeniedException();
+
         $deleteForm = $this->createDeleteForm($mission);
 
         return $this->render('mission/show.html.twig', [
