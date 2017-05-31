@@ -17,13 +17,6 @@ class MissionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                /*
-                ->add('client', EntityType::class,
-                    [
-                        'class' => User::class,
-                        'choice_label' => 'username'
-                    ])
-                */
                 ->add('serviceDate', DateType::class, [
                     'widget' => 'single_text',
                     'html5' => true

@@ -37,7 +37,7 @@ class Mission
      *
      * @Assert\NotBlank()
      * @Assert\Date()
-     * @Assert\LessThan("-2 day")
+     * @Assert\GreaterThan("+2 day")
      */
     private $serviceDate;
 
