@@ -7,9 +7,12 @@
         <thead>
             <tr>
                 {% if is_granted('ROLE_ADMIN') %}
-                    <th{% if missions.isSorted('m.client') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(missions, 'Client', 'm.client') }}</th>
+                    <th{% if missions.isSorted('u.username') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(missions, 'Client', 'u.username') }}</th>
                 {% endif %}
-                <th>Service date</th>
+                <th
+                    {% if missions.isSorted('u.username') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(missions, 'Service date', 'm.serviceDate') }}
+                </th>
                 <th>Product name</th>
                 <th>Quantity</th>
                 <th>Country destination</th>

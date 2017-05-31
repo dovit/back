@@ -30,6 +30,7 @@ class Mission
     {
         $missionQuery = $this->missionRepository
                     ->myFindAllByUser($user, $this->authorizationChecker->isGranted('ROLE_ADMIN'));
+        dump($missionQuery);
         return $this->paginator->paginate(
             $missionQuery,
             $page,
